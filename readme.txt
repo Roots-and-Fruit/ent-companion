@@ -4,7 +4,7 @@ Tags: abilities, mcp, ai, agents, blocks
 Requires at least: 6.9
 Tested up to: 6.9
 Requires PHP: 8.0
-Stable tag: 1.5.0
+Stable tag: 1.5.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -98,6 +98,9 @@ Recommended custom role caps:
 5. Run audit-mcp-abilities.ps1 from the rootsandfruit-as-client repo
 
 == Changelog ==
+
+= 1.5.1 =
+* Fix GitHub release zip paths (forward slashes) for Linux/Git Updater installs.
 
 = 1.5.0 =
 * Add rootsandfruit/set-post-author for MCP article publish workflow (user ID or login).

@@ -40,7 +40,17 @@ Release zip asset name should match Git Updater convention: `abilities-*.zip` (e
 
 1. Bump `Version` and `RF_ABILITIES_VERSION` in `rootsandfruit-abilities.php` and `Stable tag` in `readme.txt`.
 2. Commit and push to `main`.
-3. Create GitHub release tag `v1.4.0` with attached zip built from plugin root.
+3. Build zip with **forward-slash paths** (required on Linux):
+
+```powershell
+python bin/build-release-zip.py
+```
+
+Do **not** use PowerShell `Compress-Archive` — it can embed backslashes and break Git Updater on the server.
+
+4. Create GitHub release tag `v1.5.0` with attached `abilities-<version>.zip`.
+
+Verify before upload: zip must contain `rootsandfruit-abilities/rootsandfruit-abilities.php` (not `rootsandfruit-abilities\...`).
 
 ## Local dev layout
 
