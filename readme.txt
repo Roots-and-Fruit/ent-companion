@@ -4,7 +4,7 @@ Tags: abilities, mcp, ai, agents, ent
 Requires at least: 6.9
 Tested up to: 6.9
 Requires PHP: 8.0
-Stable tag: 2.0.0
+Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,6 +17,7 @@ Registers a least-privilege `ent-companion/*` ability surface for Cursor agents 
 == Ability catalog ==
 
 * ent-companion/ping
+* ent-companion/list-plugins
 
 When Public Post Preview is active:
 
@@ -59,6 +60,9 @@ When WP Rollback is active:
 3. Confirm `ent-companion/ping` appears in MCP discover
 
 == Changelog ==
+
+= 2.1.0 =
+* Add `ent-companion/list-plugins` — installed plugin inventory with optional status/search filters and update metadata.
 
 = 2.0.0 =
 * Fork as Ent Companion (`ent-companion/*` namespace).

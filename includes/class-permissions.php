@@ -84,6 +84,10 @@ final class EC_Permissions {
 		return current_user_can( 'update_plugins' );
 	}
 
+	public static function can_list_plugins( $input = null ): bool {
+		return current_user_can( 'activate_plugins' ) || current_user_can( 'update_plugins' );
+	}
+
 	/**
 	 * @param mixed $input Ability input.
 	 */

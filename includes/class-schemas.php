@@ -403,6 +403,51 @@ final class EC_Schemas {
 		);
 	}
 
+	public static function list_plugins_input(): array {
+		return array(
+			'type'       => 'object',
+			'properties' => array(
+				'status' => array(
+					'type'        => 'string',
+					'description' => 'Filter by activation status: all, active, or inactive.',
+					'enum'        => array( 'all', 'active', 'inactive' ),
+					'default'     => 'all',
+				),
+				'search' => array(
+					'type'        => 'string',
+					'description' => 'Optional case-insensitive match against name, slug, author, or description.',
+				),
+			),
+		);
+	}
+
+	public static function list_plugins_output(): array {
+		return array(
+			'type'       => 'object',
+			'properties' => array(
+				'count'   => array( 'type' => 'integer' ),
+				'plugins' => array(
+					'type'  => 'array',
+					'items' => array(
+						'type'       => 'object',
+						'properties' => array(
+							'slug'             => array( 'type' => 'string' ),
+							'name'             => array( 'type' => 'string' ),
+							'version'          => array( 'type' => 'string' ),
+							'active'           => array( 'type' => 'boolean' ),
+							'plugin_file'      => array( 'type' => 'string' ),
+							'author'           => array( 'type' => 'string' ),
+							'update_available' => array( 'type' => 'boolean' ),
+							'new_version'      => array( 'type' => 'string' ),
+						),
+						'required'   => array( 'slug', 'name', 'version', 'active', 'plugin_file' ),
+					),
+				),
+			),
+			'required'   => array( 'count', 'plugins' ),
+		);
+	}
+
 	public static function plugin_update_safe_input(): array {
 		return array(
 			'type'       => 'object',

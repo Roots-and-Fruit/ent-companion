@@ -39,9 +39,7 @@ final class EC_Plugin {
 		if ( EC_Snippets::is_available() ) {
 			$this->registry->add_module( new EC_Snippets_Module() );
 		}
-		if ( EC_Wp_Rollback::is_available() ) {
-			$this->registry->add_module( new EC_Plugins_Module() );
-		}
+		$this->registry->add_module( new EC_Plugins_Module() );
 		$this->registry->boot();
 	}
 
