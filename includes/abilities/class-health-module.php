@@ -2,7 +2,7 @@
 /**
  * Site health / diagnostic abilities.
  *
- * @package RootsAndFruitAbilities
+ * @package EntCompanion
  */
 
 declare(strict_types=1);
@@ -11,31 +11,31 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class RF_Health_Module implements RF_Ability_Module {
+final class EC_Health_Module implements EC_Ability_Module {
 
 	public function category_slug(): string {
-		return 'rootsandfruit-site';
+		return 'ent-companion-site';
 	}
 
 	public function category_label(): string {
-		return __( 'Roots & Fruit — Site', 'rootsandfruit-abilities' );
+		return __( 'Ent Companion — Site', 'ent-companion' );
 	}
 
 	public function category_description(): string {
-		return __( 'Read-only site diagnostics for Roots & Fruit agents.', 'rootsandfruit-abilities' );
+		return __( 'Read-only site diagnostics for Ent Companion agents.', 'ent-companion' );
 	}
 
 	public function definitions(): array {
 		return array(
-			RF_Ability_Definition::make( 'rootsandfruit/ping' )
-				->label( __( 'Ping', 'rootsandfruit-abilities' ) )
-				->description( __( 'Returns plugin health and version. Use to verify MCP connectivity.', 'rootsandfruit-abilities' ) )
+			EC_Ability_Definition::make( 'ent-companion/ping' )
+				->label( __( 'Ping', 'ent-companion' ) )
+				->description( __( 'Returns plugin health and version. Use to verify MCP connectivity.', 'ent-companion' ) )
 				->category( $this->category_slug() )
-				->output( RF_Schemas::ping_output() )
+				->output( EC_Schemas::ping_output() )
 				->execute( array( self::class, 'ping' ) )
-				->permission( array( RF_Permissions::class, 'can_read' ) )
+				->permission( array( EC_Permissions::class, 'can_read' ) )
 				->mcp_public( true )
-				->annotations( RF_Annotations::read_only() )
+				->annotations( EC_Annotations::read_only() )
 				->build(),
 		);
 	}
@@ -46,9 +46,11 @@ final class RF_Health_Module implements RF_Ability_Module {
 	 */
 	public static function ping( array $input = array() ): array {
 		return array(
-			'ok'               => true,
-			'plugin_version'   => RF_ABILITIES_VERSION,
-			'block_mcp_active' => RF_Block_Mcp::is_available(),
+			'ok'                     => true,
+			'plugin_version'         => ENT_COMPANION_VERSION,
+			'snippet_providers'      => EC_Snippets::available_providers(),
+			'fluent_snippets_active' => EC_Fluent_Snippets::is_available(),
+			'code_snippets_active'   => EC_Code_Snippets::is_available(),
 		);
 	}
 }

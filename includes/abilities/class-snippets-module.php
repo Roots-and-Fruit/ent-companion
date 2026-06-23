@@ -2,7 +2,7 @@
 /**
  * FluentSnippets management abilities for agent-defined handlers.
  *
- * @package RootsAndFruitAbilities
+ * @package EntCompanion
  */
 
 declare(strict_types=1);
@@ -11,98 +11,98 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class RF_Snippets_Module implements RF_Ability_Module {
+final class EC_Snippets_Module implements EC_Ability_Module {
 
 	public function category_slug(): string {
-		return 'rootsandfruit-snippets';
+		return 'ent-companion-snippets';
 	}
 
 	public function category_label(): string {
-		return __( 'Roots & Fruit — Snippets', 'rootsandfruit-abilities' );
+		return __( 'Ent Companion — Snippets', 'ent-companion' );
 	}
 
 	public function category_description(): string {
-		return __( 'Manage FluentSnippets that register custom agent abilities.', 'rootsandfruit-abilities' );
+		return __( 'Manage FluentSnippets that register custom agent abilities.', 'ent-companion' );
 	}
 
 	public function definitions(): array {
 		return array(
-			RF_Ability_Definition::make( 'rootsandfruit/snippets-list' )
-				->label( __( 'List FluentSnippets', 'rootsandfruit-abilities' ) )
-				->description( __( 'Lists rf-ability FluentSnippets (draft and published).', 'rootsandfruit-abilities' ) )
+			EC_Ability_Definition::make( 'ent-companion/snippets-list' )
+				->label( __( 'List FluentSnippets', 'ent-companion' ) )
+				->description( __( 'Lists ec-ability FluentSnippets (draft and published).', 'ent-companion' ) )
 				->category( $this->category_slug() )
-				->input( RF_Schemas::snippets_list_input() )
-				->output( RF_Schemas::snippets_list_output() )
-				->execute( array( RF_Fluent_Snippets::class, 'list_snippets' ) )
-				->permission( array( RF_Permissions::class, 'can_manage_snippets' ) )
+				->input( EC_Schemas::snippets_list_input() )
+				->output( EC_Schemas::snippets_list_output() )
+				->execute( array( EC_Snippets::class, 'list_snippets' ) )
+				->permission( array( EC_Permissions::class, 'can_manage_snippets' ) )
 				->mcp_public( true )
-				->annotations( RF_Annotations::read_only() )
+				->annotations( EC_Annotations::read_only() )
 				->build(),
-			RF_Ability_Definition::make( 'rootsandfruit/snippets-get' )
-				->label( __( 'Get FluentSnippet', 'rootsandfruit-abilities' ) )
-				->description( __( 'Returns metadata and PHP code for one rf-ability snippet.', 'rootsandfruit-abilities' ) )
+			EC_Ability_Definition::make( 'ent-companion/snippets-get' )
+				->label( __( 'Get FluentSnippet', 'ent-companion' ) )
+				->description( __( 'Returns metadata and PHP code for one ec-ability snippet.', 'ent-companion' ) )
 				->category( $this->category_slug() )
-				->input( RF_Schemas::snippet_file_input() )
-				->output( RF_Schemas::snippet_detail_output() )
-				->execute( array( RF_Fluent_Snippets::class, 'get_snippet' ) )
-				->permission( array( RF_Permissions::class, 'can_manage_snippets' ) )
+				->input( EC_Schemas::snippet_file_input() )
+				->output( EC_Schemas::snippet_detail_output() )
+				->execute( array( EC_Snippets::class, 'get_snippet' ) )
+				->permission( array( EC_Permissions::class, 'can_manage_snippets' ) )
 				->mcp_public( true )
-				->annotations( RF_Annotations::read_only() )
+				->annotations( EC_Annotations::read_only() )
 				->build(),
-			RF_Ability_Definition::make( 'rootsandfruit/snippets-create' )
-				->label( __( 'Create FluentSnippet', 'rootsandfruit-abilities' ) )
-				->description( __( 'Creates a draft PHP snippet tagged rf-ability for custom ability registration.', 'rootsandfruit-abilities' ) )
+			EC_Ability_Definition::make( 'ent-companion/snippets-create' )
+				->label( __( 'Create FluentSnippet', 'ent-companion' ) )
+				->description( __( 'Creates a draft PHP snippet tagged ec-ability for custom ability registration.', 'ent-companion' ) )
 				->category( $this->category_slug() )
-				->input( RF_Schemas::snippet_create_input() )
-				->output( RF_Schemas::snippet_mutation_output() )
-				->execute( array( RF_Fluent_Snippets::class, 'create_snippet' ) )
-				->permission( array( RF_Permissions::class, 'can_manage_snippets' ) )
+				->input( EC_Schemas::snippet_create_input() )
+				->output( EC_Schemas::snippet_mutation_output() )
+				->execute( array( EC_Snippets::class, 'create_snippet' ) )
+				->permission( array( EC_Permissions::class, 'can_manage_snippets' ) )
 				->mcp_public( true )
-				->annotations( RF_Annotations::write_safe() )
+				->annotations( EC_Annotations::write_safe() )
 				->build(),
-			RF_Ability_Definition::make( 'rootsandfruit/snippets-update' )
-				->label( __( 'Update FluentSnippet', 'rootsandfruit-abilities' ) )
-				->description( __( 'Updates an existing rf-ability snippet (metadata and/or PHP code).', 'rootsandfruit-abilities' ) )
+			EC_Ability_Definition::make( 'ent-companion/snippets-update' )
+				->label( __( 'Update FluentSnippet', 'ent-companion' ) )
+				->description( __( 'Updates an existing ec-ability snippet (metadata and/or PHP code).', 'ent-companion' ) )
 				->category( $this->category_slug() )
-				->input( RF_Schemas::snippet_update_input() )
-				->output( RF_Schemas::snippet_mutation_output() )
-				->execute( array( RF_Fluent_Snippets::class, 'update_snippet' ) )
-				->permission( array( RF_Permissions::class, 'can_manage_snippets' ) )
+				->input( EC_Schemas::snippet_update_input() )
+				->output( EC_Schemas::snippet_mutation_output() )
+				->execute( array( EC_Snippets::class, 'update_snippet' ) )
+				->permission( array( EC_Permissions::class, 'can_manage_snippets' ) )
 				->mcp_public( true )
-				->annotations( RF_Annotations::write_safe() )
+				->annotations( EC_Annotations::write_safe() )
 				->build(),
-			RF_Ability_Definition::make( 'rootsandfruit/snippets-activate' )
-				->label( __( 'Activate FluentSnippet', 'rootsandfruit-abilities' ) )
-				->description( __( 'Publishes an rf-ability snippet so its registered abilities load on the site.', 'rootsandfruit-abilities' ) )
+			EC_Ability_Definition::make( 'ent-companion/snippets-activate' )
+				->label( __( 'Activate FluentSnippet', 'ent-companion' ) )
+				->description( __( 'Publishes an ec-ability snippet so its registered abilities load on the site.', 'ent-companion' ) )
 				->category( $this->category_slug() )
-				->input( RF_Schemas::snippet_file_input() )
-				->output( RF_Schemas::snippet_status_output() )
-				->execute( array( RF_Fluent_Snippets::class, 'activate_snippet' ) )
-				->permission( array( RF_Permissions::class, 'can_manage_snippets' ) )
+				->input( EC_Schemas::snippet_file_input() )
+				->output( EC_Schemas::snippet_status_output() )
+				->execute( array( EC_Snippets::class, 'activate_snippet' ) )
+				->permission( array( EC_Permissions::class, 'can_manage_snippets' ) )
 				->mcp_public( true )
-				->annotations( RF_Annotations::write_safe() )
+				->annotations( EC_Annotations::write_safe() )
 				->build(),
-			RF_Ability_Definition::make( 'rootsandfruit/snippets-deactivate' )
-				->label( __( 'Deactivate FluentSnippet', 'rootsandfruit-abilities' ) )
-				->description( __( 'Sets an rf-ability snippet to draft so its abilities stop registering.', 'rootsandfruit-abilities' ) )
+			EC_Ability_Definition::make( 'ent-companion/snippets-deactivate' )
+				->label( __( 'Deactivate FluentSnippet', 'ent-companion' ) )
+				->description( __( 'Sets an ec-ability snippet to draft so its abilities stop registering.', 'ent-companion' ) )
 				->category( $this->category_slug() )
-				->input( RF_Schemas::snippet_file_input() )
-				->output( RF_Schemas::snippet_status_output() )
-				->execute( array( RF_Fluent_Snippets::class, 'deactivate_snippet' ) )
-				->permission( array( RF_Permissions::class, 'can_manage_snippets' ) )
+				->input( EC_Schemas::snippet_file_input() )
+				->output( EC_Schemas::snippet_status_output() )
+				->execute( array( EC_Snippets::class, 'deactivate_snippet' ) )
+				->permission( array( EC_Permissions::class, 'can_manage_snippets' ) )
 				->mcp_public( true )
-				->annotations( RF_Annotations::write_safe() )
+				->annotations( EC_Annotations::write_safe() )
 				->build(),
-			RF_Ability_Definition::make( 'rootsandfruit/snippets-verify' )
-				->label( __( 'Verify FluentSnippet runtime', 'rootsandfruit-abilities' ) )
-				->description( __( 'Loopback load check after update/activate; returns ok and error in one call.', 'rootsandfruit-abilities' ) )
+			EC_Ability_Definition::make( 'ent-companion/snippets-verify' )
+				->label( __( 'Verify FluentSnippet runtime', 'ent-companion' ) )
+				->description( __( 'Loopback load check after update/activate; returns ok and error in one call.', 'ent-companion' ) )
 				->category( $this->category_slug() )
-				->input( RF_Schemas::snippet_verify_input() )
-				->output( RF_Schemas::snippet_verify_output() )
-				->execute( array( RF_Fluent_Snippets::class, 'verify_snippet' ) )
-				->permission( array( RF_Permissions::class, 'can_manage_snippets' ) )
+				->input( EC_Schemas::snippet_verify_input() )
+				->output( EC_Schemas::snippet_verify_output() )
+				->execute( array( EC_Snippets::class, 'verify_snippet' ) )
+				->permission( array( EC_Permissions::class, 'can_manage_snippets' ) )
 				->mcp_public( true )
-				->annotations( RF_Annotations::read_only() )
+				->annotations( EC_Annotations::read_only() )
 				->build(),
 		);
 	}

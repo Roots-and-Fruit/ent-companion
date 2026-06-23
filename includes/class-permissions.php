@@ -2,7 +2,7 @@
 /**
  * Permission callbacks for R&F abilities.
  *
- * @package RootsAndFruitAbilities
+ * @package EntCompanion
  */
 
 declare(strict_types=1);
@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class RF_Permissions {
+final class EC_Permissions {
 
 	public static function can_read(): bool {
 		return current_user_can( 'read' );

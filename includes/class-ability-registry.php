@@ -2,7 +2,7 @@
 /**
  * Registers categories and abilities from modules.
  *
- * @package RootsAndFruitAbilities
+ * @package EntCompanion
  */
 
 declare(strict_types=1);
@@ -11,12 +11,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class RF_Ability_Registry {
+final class EC_Ability_Registry {
 
-	/** @var RF_Ability_Module[] */
+	/** @var EC_Ability_Module[] */
 	private array $modules = array();
 
-	public function add_module( RF_Ability_Module $module ): void {
+	public function add_module( EC_Ability_Module $module ): void {
 		$this->modules[] = $module;
 	}
 

@@ -2,7 +2,7 @@
 /**
  * Ability module contract.
  *
- * @package RootsAndFruitAbilities
+ * @package EntCompanion
  */
 
 declare(strict_types=1);
@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-interface RF_Ability_Module {
+interface EC_Ability_Module {
 
 	/**
 	 * Category slug registered via wp_register_ability_category().

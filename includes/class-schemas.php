@@ -2,7 +2,7 @@
 /**
  * Reusable JSON Schema fragments for abilities.
  *
- * @package RootsAndFruitAbilities
+ * @package EntCompanion
  */
 
 declare(strict_types=1);
@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class RF_Schemas {
+final class EC_Schemas {
 
 	public static function post_id_input(): array {
 		return array(
@@ -64,7 +64,7 @@ final class RF_Schemas {
 				),
 				'content' => array(
 					'type'        => 'string',
-					'description' => 'Plain HTML only. For block editor posts use rootsandfruit/blocks-* abilities instead.',
+					'description' => 'Plain HTML only. For block editor posts use ent-companion/blocks-* abilities instead.',
 				),
 				'excerpt' => array(
 					'type'        => 'string',
@@ -178,8 +178,13 @@ final class RF_Schemas {
 			'type'       => 'object',
 			'properties' => array(
 				'ok'               => array( 'type' => 'boolean' ),
-				'plugin_version'   => array( 'type' => 'string' ),
-				'block_mcp_active' => array( 'type' => 'boolean' ),
+				'plugin_version'        => array( 'type' => 'string' ),
+				'snippet_providers'   => array(
+					'type'  => 'array',
+					'items' => array( 'type' => 'string' ),
+				),
+				'fluent_snippets_active' => array( 'type' => 'boolean' ),
+				'code_snippets_active'   => array( 'type' => 'boolean' ),
 			),
 			'required'   => array( 'ok', 'plugin_version' ),
 		);
@@ -189,6 +194,11 @@ final class RF_Schemas {
 		return array(
 			'type'       => 'object',
 			'properties' => array(
+				'provider' => array(
+					'type'        => 'string',
+					'description' => 'Snippet backend: fluent or code_snippets (auto when omitted).',
+					'enum'        => array( 'fluent', 'code_snippets' ),
+				),
 				'status'          => array(
 					'type'        => 'string',
 					'description' => 'Filter by snippet status.',
@@ -205,9 +215,9 @@ final class RF_Schemas {
 					'minimum' => 1,
 					'default' => 1,
 				),
-				'rf_ability_only' => array(
+				'ec_ability_only' => array(
 					'type'        => 'boolean',
-					'description' => 'When true (default), only snippets tagged rf-ability.',
+					'description' => 'When true (default), only snippets tagged ec-ability.',
 					'default'     => true,
 				),
 			),
@@ -243,11 +253,11 @@ final class RF_Schemas {
 				),
 				'code'        => array(
 					'type'        => 'string',
-					'description' => 'PHP snippet body without opening <?php tag. Must register rootsandfruit/* abilities.',
+					'description' => 'PHP snippet body without opening <?php tag. Must register ent-companion/* abilities.',
 				),
 				'tags'        => array(
 					'type'        => 'string',
-					'description' => 'Optional comma-separated tags; rf-ability is added automatically.',
+					'description' => 'Optional comma-separated tags; ec-ability is added automatically.',
 				),
 				'group'       => array(
 					'type'        => 'string',

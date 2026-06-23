@@ -2,7 +2,7 @@
 /**
  * MCP annotation presets.
  *
- * @package RootsAndFruitAbilities
+ * @package EntCompanion
  */
 
 declare(strict_types=1);
@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class RF_Annotations {
+final class EC_Annotations {
 
 	public static function read_only(): array {
 		return array(

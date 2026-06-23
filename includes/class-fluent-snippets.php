@@ -2,7 +2,7 @@
 /**
  * FluentSnippets integration with R&F guardrails.
  *
- * @package RootsAndFruitAbilities
+ * @package EntCompanion
  */
 
 declare(strict_types=1);
@@ -11,10 +11,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class RF_Fluent_Snippets {
+final class EC_Fluent_Snippets {
 
-	public const ABILITY_TAG   = 'rf-ability';
-	public const DEFAULT_GROUP = 'Roots & Fruit';
+	public const ABILITY_TAG   = 'ec-ability';
+	public const DEFAULT_GROUP = 'Ent Companion';
 
 	public static function is_available(): bool {
 		return class_exists( 'FluentSnippets\App\Helpers\Helper' )
@@ -34,7 +34,7 @@ final class RF_Fluent_Snippets {
 		$per_page = isset( $input['per_page'] ) ? max( 1, min( 100, (int) $input['per_page'] ) ) : 50;
 		$page     = isset( $input['page'] ) ? max( 1, (int) $input['page'] ) : 1;
 		$status   = isset( $input['status'] ) ? sanitize_text_field( (string) $input['status'] ) : '';
-		$tag_only = ! isset( $input['rf_ability_only'] ) || filter_var( $input['rf_ability_only'], FILTER_VALIDATE_BOOLEAN );
+		$tag_only = ! isset( $input['EC_ability_only'] ) || filter_var( $input['EC_ability_only'], FILTER_VALIDATE_BOOLEAN );
 
 		$model = new \FluentSnippets\App\Model\Snippet(
 			array(
@@ -54,7 +54,7 @@ final class RF_Fluent_Snippets {
 			if ( ! is_array( $row ) ) {
 				continue;
 			}
-			if ( $tag_only && ! self::row_has_rf_ability_tag( $row ) ) {
+			if ( $tag_only && ! self::row_has_ec_ability_tag( $row ) ) {
 				continue;
 			}
 			$snippets[] = self::format_summary( $row );
@@ -88,8 +88,8 @@ final class RF_Fluent_Snippets {
 			return $snippet;
 		}
 
-		if ( ! self::meta_has_rf_ability_tag( $snippet['meta'] ) ) {
-			return RF_Errors::snippet_not_rf_ability( $file_name );
+		if ( ! self::meta_has_ec_ability_tag( $snippet['meta'] ) ) {
+			return EC_Errors::snippet_not_ec_ability( $file_name );
 		}
 
 		return array(
@@ -111,11 +111,11 @@ final class RF_Fluent_Snippets {
 		$code = isset( $input['code'] ) ? (string) $input['code'] : '';
 
 		if ( '' === trim( $name ) ) {
-			return RF_Errors::invalid_input( 'name is required.' );
+			return EC_Errors::invalid_input( 'name is required.' );
 		}
 
 		if ( '' === trim( $code ) ) {
-			return RF_Errors::invalid_input( 'code is required.' );
+			return EC_Errors::invalid_input( 'code is required.' );
 		}
 
 		$validated_code = self::validate_ability_snippet_code( $code );
@@ -129,7 +129,7 @@ final class RF_Fluent_Snippets {
 			'type'        => 'PHP',
 			'run_at'      => 'all',
 			'status'      => 'draft',
-			'tags'        => self::ensure_rf_ability_tag( isset( $input['tags'] ) ? (string) $input['tags'] : '' ),
+			'tags'        => self::ensure_ec_ability_tag( isset( $input['tags'] ) ? (string) $input['tags'] : '' ),
 			'group'       => isset( $input['group'] ) ? sanitize_text_field( (string) $input['group'] ) : self::DEFAULT_GROUP,
 			'priority'    => isset( $input['priority'] ) ? max( 1, (int) $input['priority'] ) : 10,
 		);
@@ -142,7 +142,7 @@ final class RF_Fluent_Snippets {
 		);
 
 		if ( is_wp_error( $file_name ) ) {
-			return RF_Errors::snippet_operation_failed( $file_name );
+			return EC_Errors::snippet_operation_failed( $file_name );
 		}
 
 		// Override FluentSnippets auto_publish — agent snippets start inactive.
@@ -186,8 +186,8 @@ final class RF_Fluent_Snippets {
 			return $snippet;
 		}
 
-		if ( ! self::meta_has_rf_ability_tag( $snippet['meta'] ) ) {
-			return RF_Errors::snippet_not_rf_ability( $file_name );
+		if ( ! self::meta_has_ec_ability_tag( $snippet['meta'] ) ) {
+			return EC_Errors::snippet_not_ec_ability( $file_name );
 		}
 
 		$meta = $snippet['meta'];
@@ -203,7 +203,7 @@ final class RF_Fluent_Snippets {
 			$meta['group'] = sanitize_text_field( (string) $input['group'] );
 		}
 		if ( isset( $input['tags'] ) ) {
-			$meta['tags'] = self::ensure_rf_ability_tag( (string) $input['tags'] );
+			$meta['tags'] = self::ensure_ec_ability_tag( (string) $input['tags'] );
 		}
 		if ( isset( $input['code'] ) ) {
 			$code = (string) $input['code'];
@@ -226,7 +226,7 @@ final class RF_Fluent_Snippets {
 		);
 
 		if ( is_wp_error( $updated ) ) {
-			return RF_Errors::snippet_operation_failed( $updated );
+			return EC_Errors::snippet_operation_failed( $updated );
 		}
 
 		$loaded = self::load_snippet( $file_name );
@@ -277,8 +277,8 @@ final class RF_Fluent_Snippets {
 			return $snippet;
 		}
 
-		if ( ! self::meta_has_rf_ability_tag( $snippet['meta'] ) ) {
-			return RF_Errors::snippet_not_rf_ability( $file_name );
+		if ( ! self::meta_has_ec_ability_tag( $snippet['meta'] ) ) {
+			return EC_Errors::snippet_not_ec_ability( $file_name );
 		}
 
 		$result = self::set_status( $file_name, $status );
@@ -321,8 +321,8 @@ final class RF_Fluent_Snippets {
 			return $snippet;
 		}
 
-		if ( ! self::meta_has_rf_ability_tag( $snippet['meta'] ) ) {
-			return RF_Errors::snippet_not_rf_ability( $file_name );
+		if ( ! self::meta_has_ec_ability_tag( $snippet['meta'] ) ) {
+			return EC_Errors::snippet_not_ec_ability( $file_name );
 		}
 
 		$status = isset( $snippet['status'] ) ? (string) $snippet['status'] : 'draft';
@@ -514,7 +514,7 @@ final class RF_Fluent_Snippets {
 		$updated = $model->updateSnippet( $file_name, $snippet['code'], $snippet['meta'] );
 
 		if ( is_wp_error( $updated ) ) {
-			return RF_Errors::snippet_operation_failed( $updated );
+			return EC_Errors::snippet_operation_failed( $updated );
 		}
 
 		do_action( 'fluent_snippets/snippet_status_updated', $file_name );
@@ -531,7 +531,7 @@ final class RF_Fluent_Snippets {
 		$snippet = $model->findByFileName( $file_name );
 
 		if ( is_wp_error( $snippet ) ) {
-			return RF_Errors::snippet_not_found( $file_name );
+			return EC_Errors::snippet_not_found( $file_name );
 		}
 
 		return $snippet;
@@ -543,13 +543,13 @@ final class RF_Fluent_Snippets {
 	private static function normalize_file_name( string $file_name ) {
 		$file_name = sanitize_file_name( $file_name );
 		if ( '' === $file_name ) {
-			return RF_Errors::invalid_input( 'file_name is required.' );
+			return EC_Errors::invalid_input( 'file_name is required.' );
 		}
 		if ( ! str_ends_with( $file_name, '.php' ) ) {
 			$file_name .= '.php';
 		}
 		if ( 'index.php' === $file_name ) {
-			return RF_Errors::invalid_input( 'Invalid snippet file name.' );
+			return EC_Errors::invalid_input( 'Invalid snippet file name.' );
 		}
 
 		return $file_name;
@@ -558,22 +558,22 @@ final class RF_Fluent_Snippets {
 	/**
 	 * @param array<string, mixed> $meta
 	 */
-	private static function meta_has_rf_ability_tag( array $meta ): bool {
+	private static function meta_has_ec_ability_tag( array $meta ): bool {
 		$tags = isset( $meta['tags'] ) ? (string) $meta['tags'] : '';
 
-		return self::tags_include_rf_ability( $tags );
+		return self::tags_include_ec_ability( $tags );
 	}
 
 	/**
 	 * @param array<string, mixed> $row
 	 */
-	private static function row_has_rf_ability_tag( array $row ): bool {
+	private static function row_has_ec_ability_tag( array $row ): bool {
 		$tags = isset( $row['tags'] ) ? (string) $row['tags'] : '';
 
-		return self::tags_include_rf_ability( $tags );
+		return self::tags_include_ec_ability( $tags );
 	}
 
-	private static function tags_include_rf_ability( string $tags ): bool {
+	private static function tags_include_ec_ability( string $tags ): bool {
 		if ( '' === trim( $tags ) ) {
 			return false;
 		}
@@ -583,7 +583,7 @@ final class RF_Fluent_Snippets {
 		return in_array( self::ABILITY_TAG, $parts, true );
 	}
 
-	private static function ensure_rf_ability_tag( string $tags ): string {
+	private static function ensure_ec_ability_tag( string $tags ): string {
 		$parts = array_filter( array_map( 'trim', explode( ',', $tags ) ) );
 		if ( ! in_array( self::ABILITY_TAG, $parts, true ) ) {
 			$parts[] = self::ABILITY_TAG;
@@ -597,31 +597,31 @@ final class RF_Fluent_Snippets {
 	 */
 	private static function validate_ability_snippet_code( string $code ) {
 		if ( preg_match( '/^<\?php/', $code ) ) {
-			return RF_Errors::invalid_input( 'Remove the opening <?php tag from snippet code.' );
+			return EC_Errors::invalid_input( 'Remove the opening <?php tag from snippet code.' );
 		}
 
-		$uses_helper = str_contains( $code, 'rf_register_agent_ability(' )
-			|| str_contains( $code, 'rf_register_agent_abilities(' );
+		$uses_helper = str_contains( $code, 'ec_register_agent_ability(' )
+			|| str_contains( $code, 'ec_register_agent_abilities(' );
 		$uses_legacy = str_contains( $code, 'wp_register_ability(' );
 
 		if ( ! str_contains( $code, 'wp_abilities_api_init' ) ) {
-			return RF_Errors::invalid_input(
+			return EC_Errors::invalid_input(
 				'Snippet code must hook wp_abilities_api_init.'
 			);
 		}
 
 		if ( ! $uses_helper && ! $uses_legacy ) {
-			return RF_Errors::invalid_input(
-				'Snippet code must call rf_register_agent_ability(), rf_register_agent_abilities(), or wp_register_ability().'
+			return EC_Errors::invalid_input(
+				'Snippet code must call ec_register_agent_ability(), ec_register_agent_abilities(), or wp_register_ability().'
 			);
 		}
 
 		if ( preg_match_all( "/wp_register_ability\s*\(\s*['\"]([^'\"]+)['\"]/", $code, $matches ) ) {
 			foreach ( $matches[1] as $ability_name ) {
-				if ( ! preg_match( '/^rootsandfruit\/[a-z0-9-]+$/', $ability_name ) ) {
-					return RF_Errors::invalid_input(
+				if ( ! preg_match( '/^ent-companion\/[a-z0-9-]+$/', $ability_name ) ) {
+					return EC_Errors::invalid_input(
 						sprintf(
-							'Ability name must match rootsandfruit/name-with-dashes, got "%s".',
+							'Ability name must match ent-companion/name-with-dashes, got "%s".',
 							$ability_name
 						)
 					);
@@ -631,8 +631,8 @@ final class RF_Fluent_Snippets {
 
 		if ( preg_match_all( "/['\"]slug['\"]\s*=>\s*['\"]([^'\"]+)['\"]/", $code, $slug_matches ) ) {
 			foreach ( $slug_matches[1] as $slug ) {
-				if ( ! preg_match( '/^(?:rootsandfruit\/)?[a-z0-9-]+$/', $slug ) ) {
-					return RF_Errors::invalid_input(
+				if ( ! preg_match( '/^(?:ent-companion\/)?[a-z0-9-]+$/', $slug ) ) {
+					return EC_Errors::invalid_input(
 						sprintf( 'Ability slug must use lowercase letters, numbers, and dashes, got "%s".', $slug )
 					);
 				}
@@ -752,7 +752,7 @@ final class RF_Fluent_Snippets {
 	 */
 	private static function require_available() {
 		if ( ! self::is_available() ) {
-			return RF_Errors::fluent_snippets_unavailable();
+			return EC_Errors::fluent_snippets_unavailable();
 		}
 
 		return true;

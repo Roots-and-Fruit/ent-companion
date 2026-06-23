@@ -1,29 +1,13 @@
-# Roots & Fruit — abilities plugin
+# Ent Companion
 
-WordPress plugin exposing curated **`rootsandfruit/*`** abilities for Cursor MCP ops on [rootsandfruit.com](https://rootsandfruit.com).
+WordPress plugin: **Ent Companion** (`ent-companion` slug). Abilities engine for MCP Adapter — `ent-companion/*` namespace.
 
-**Sibling repo:** `../agent/` (MCP scripts, `.env`, ops docs). Open `../rootsandfruit.code-workspace` for both folders.
+Canonical repo: https://github.com/Roots-and-Fruit/ent-companion
 
-## Dev workflow
+## Ship checklist
 
-- Plugin code: this repo. Match existing PHP style.
-- Abilities work: load **`rf-abilities-dev`** skill; API reference: **`wp-abilities-api`** skill.
-- After registration changes: from `../agent/` run `test-wordpress-mcp-http.ps1` and `audit-mcp-abilities.ps1` (see `../agent/README.md`).
+- Headers in `ent-companion.php`: `GitHub Plugin URI`, `Primary Branch`, `Release Asset`
+- Release zip: `python bin/build-release-zip.py` → `ent-companion-<version>.zip`
+- Git Updater slug: `ent-companion/ent-companion.php`
 
-## Release
-
-Git push does **not** update production. Tag + zip via GitHub release; Git Updater on server. See [`GITHUB.md`](GITHUB.md).
-
-## Boundaries
-
-**Ask first:** Production plugin deploy, GitHub releases, Git Updater config.
-
-**Never:** Delete content via MCP (no delete abilities registered); commit secrets.
-
-## Deep docs
-
-| Topic | Path |
-|-------|------|
-| Agent ops index | `../agent/AGENTS.md` |
-| MCP routing | `../agent/agent_docs/mcp-routing.md` |
-| Plugin dev skill | `.cursor/skills/rf-abilities-dev/` |
+See `GITHUB.md` for release workflow.

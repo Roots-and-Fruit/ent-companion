@@ -2,7 +2,7 @@
 /**
  * Boots the ability registry and modules.
  *
- * @package RootsAndFruitAbilities
+ * @package EntCompanion
  */
 
 declare(strict_types=1);
@@ -11,14 +11,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class RF_Plugin {
+final class EC_Plugin {
 
-	private static ?RF_Plugin $instance = null;
+	private static ?EC_Plugin $instance = null;
 
-	private RF_Ability_Registry $registry;
+	private EC_Ability_Registry $registry;
 
 	private function __construct() {
-		$this->registry = new RF_Ability_Registry();
+		$this->registry = new EC_Ability_Registry();
 	}
 
 	public static function instance(): self {
@@ -30,26 +30,22 @@ final class RF_Plugin {
 	}
 
 	public function boot(): void {
-		add_action( 'wp_abilities_api_categories_init', array( RF_Agent_Abilities::class, 'register_category' ) );
+		add_action( 'wp_abilities_api_categories_init', array( EC_Agent_Abilities::class, 'register_category' ) );
 
-		$this->registry->add_module( new RF_Health_Module() );
+		$this->registry->add_module( new EC_Health_Module() );
 		if ( class_exists( 'DS_Public_Post_Preview' ) ) {
-			$this->registry->add_module( new RF_Preview_Module() );
+			$this->registry->add_module( new EC_Preview_Module() );
 		}
-		$this->registry->add_module( new RF_Content_Module() );
-		if ( RF_Fluent_Snippets::is_available() ) {
-			$this->registry->add_module( new RF_Snippets_Module() );
+		if ( EC_Snippets::is_available() ) {
+			$this->registry->add_module( new EC_Snippets_Module() );
 		}
-		if ( RF_Wp_Rollback::is_available() ) {
-			$this->registry->add_module( new RF_Plugins_Module() );
-		}
-		if ( RF_Block_Mcp::is_available() ) {
-			$this->registry->add_module( new RF_Blocks_Module() );
+		if ( EC_Wp_Rollback::is_available() ) {
+			$this->registry->add_module( new EC_Plugins_Module() );
 		}
 		$this->registry->boot();
 	}
 
-	public function registry(): RF_Ability_Registry {
+	public function registry(): EC_Ability_Registry {
 		return $this->registry;
 	}
 }

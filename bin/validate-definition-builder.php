@@ -1,13 +1,13 @@
 #!/usr/bin/env php
 <?php
 /**
- * CLI validation for RF_Ability_Definition (gate 1.2).
+ * CLI validation for EC_Ability_Definition (gate 1.2).
  * Run: php ../abilities/bin/validate-definition-builder.php
  */
 
 declare(strict_types=1);
 
-define( 'RF_ABILITIES_PREFIX', 'rootsandfruit/' );
+define( 'ENT_COMPANION_PREFIX', 'ent-companion/' );
 define( 'ABSPATH', __DIR__ );
 
 require dirname( __DIR__ ) . '/includes/class-ability-definition.php';
@@ -27,7 +27,7 @@ function expect_exception( callable $fn, string $label ): void {
 
 expect_exception(
 	static function (): void {
-		RF_Ability_Definition::make( 'rootsandfruit/test/x' )
+		EC_Ability_Definition::make( 'ent-companion/test/x' )
 			->label( 'X' )
 			->description( 'Y' )
 			->category( 'cat' )
@@ -40,7 +40,7 @@ expect_exception(
 
 expect_exception(
 	static function (): void {
-		RF_Ability_Definition::make( 'wrong/prefix' )
+		EC_Ability_Definition::make( 'wrong/prefix' )
 			->label( 'X' )
 			->description( 'Y' )
 			->category( 'cat' )
@@ -53,7 +53,7 @@ expect_exception(
 
 expect_exception(
 	static function (): void {
-		RF_Ability_Definition::make( 'rootsandfruit/test/x' )
+		EC_Ability_Definition::make( 'ent-companion/test/x' )
 			->label( 'X' )
 			->description( '' )
 			->category( 'cat' )
@@ -64,16 +64,16 @@ expect_exception(
 	'empty description'
 );
 
-$built = RF_Ability_Definition::make( 'rootsandfruit/test-valid' )
+$built = EC_Ability_Definition::make( 'ent-companion/test-valid' )
 	->label( 'Valid' )
 	->description( 'Valid ability' )
-	->category( 'rootsandfruit-site' )
+	->category( 'ent-companion-site' )
 	->execute( static fn() => array( 'ok' => true ) )
 	->permission( static fn() => true )
 	->mcp_public( false )
 	->build();
 
-if ( 'rootsandfruit/test-valid' === $built['name'] ) {
+if ( 'ent-companion/test-valid' === $built['name'] ) {
 	echo "PASS: valid build\n";
 } else {
 	echo "FAIL: valid build name mismatch\n";

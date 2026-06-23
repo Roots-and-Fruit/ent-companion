@@ -9,7 +9,7 @@ import sys
 import zipfile
 from pathlib import Path
 
-PLUGIN_SLUG = "rootsandfruit-abilities"
+PLUGIN_SLUG = "ent-companion"
 EXCLUDE_DIRS = {".git", ".cursor", "__pycache__", ".github"}
 EXCLUDE_FILES = {".DS_Store", "Thumbs.db", ".gitignore", ".cursorignore", ".cursorindexingignore"}
 EXCLUDE_DOC_PREFIXES = ("RELEASE-v", "AGENTS.md", "GITHUB.md")
@@ -30,7 +30,7 @@ def should_include(path: Path, repo_root: Path) -> bool:
         return False
     if path.name in EXCLUDE_FILES:
         return False
-    if path.suffix == ".zip" and path.name.startswith("abilities-"):
+    if path.suffix == ".zip" and path.name.startswith(f"{PLUGIN_SLUG}-"):
         return False
     if path.name in EXCLUDE_DOC_PREFIXES or path.name.startswith("RELEASE-v"):
         return False
@@ -39,7 +39,7 @@ def should_include(path: Path, repo_root: Path) -> bool:
 
 def build_zip(repo_root: Path, output: Path | None = None) -> Path:
     version = read_version(repo_root)
-    out_path = output or (repo_root / f"abilities-{version}.zip")
+    out_path = output or (repo_root / f"{PLUGIN_SLUG}-{version}.zip")
 
     with zipfile.ZipFile(out_path, "w", compression=zipfile.ZIP_DEFLATED) as zf:
         for file_path in sorted(repo_root.rglob("*")):
@@ -53,7 +53,7 @@ def build_zip(repo_root: Path, output: Path | None = None) -> Path:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Build abilities release zip for Git Updater.")
+    parser = argparse.ArgumentParser(description="Build ent-companion release zip for Git Updater.")
     parser.add_argument(
         "--root",
         type=Path,

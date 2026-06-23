@@ -2,7 +2,7 @@
 /**
  * Composite plugin update workflow with smoke test + rollback.
  *
- * @package RootsAndFruitAbilities
+ * @package EntCompanion
  */
 
 declare(strict_types=1);
@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class RF_Plugin_Update_Safe {
+final class EC_Plugin_Update_Safe {
 
 	/**
 	 * @param array<string, mixed> $input
@@ -20,7 +20,7 @@ final class RF_Plugin_Update_Safe {
 	public static function run( array $input ) {
 		$slug = sanitize_key( (string) ( $input['slug'] ?? '' ) );
 		if ( '' === $slug ) {
-			return RF_Errors::invalid_input( 'slug is required.' );
+			return EC_Errors::invalid_input( 'slug is required.' );
 		}
 
 		$rollback_on_failure = ! isset( $input['rollback_on_failure'] )
@@ -30,7 +30,7 @@ final class RF_Plugin_Update_Safe {
 
 		$phases = array();
 
-		$pre = RF_Plugin_Updater::get_installed_version( $slug );
+		$pre = EC_Plugin_Updater::get_installed_version( $slug );
 		if ( is_wp_error( $pre ) ) {
 			return $pre;
 		}
@@ -42,7 +42,7 @@ final class RF_Plugin_Update_Safe {
 			array( 'version' => $pre )
 		);
 
-		$update = RF_Plugin_Updater::update_from_wordpress_org( $slug, $target_version );
+		$update = EC_Plugin_Updater::update_from_wordpress_org( $slug, $target_version );
 		if ( is_wp_error( $update ) ) {
 			$phases[] = self::phase( 'update', false, $update->get_error_message(), array() );
 
@@ -66,7 +66,7 @@ final class RF_Plugin_Update_Safe {
 			$update
 		);
 
-		$smoke = RF_Site_Smoke_Test::run_default();
+		$smoke = EC_Site_Smoke_Test::run_default();
 		if ( empty( $smoke['ok'] ) ) {
 			$phases[] = self::phase(
 				'smoke-test',
@@ -88,7 +88,7 @@ final class RF_Plugin_Update_Safe {
 				);
 			}
 
-			$rollback = RF_Wp_Rollback::rollback_plugin( $slug, $pre );
+			$rollback = EC_Wp_Rollback::rollback_plugin( $slug, $pre );
 			if ( is_wp_error( $rollback ) ) {
 				$phases[] = self::phase( 'rollback', false, $rollback->get_error_message(), array() );
 
@@ -112,7 +112,7 @@ final class RF_Plugin_Update_Safe {
 				$rollback
 			);
 
-			$final = RF_Plugin_Updater::get_installed_version( $slug );
+			$final = EC_Plugin_Updater::get_installed_version( $slug );
 			$final_version = is_wp_error( $final ) ? $pre : $final;
 
 			return self::result(

@@ -2,7 +2,7 @@
 /**
  * Internal WP Rollback step runner (avoids REST nonce requirements).
  *
- * @package RootsAndFruitAbilities
+ * @package EntCompanion
  */
 
 declare(strict_types=1);
@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class RF_Wp_Rollback {
+final class EC_Wp_Rollback {
 
 	public static function is_available(): bool {
 		return class_exists( 'WpRollback\SharedCore\Core\SharedCore' )
@@ -24,11 +24,11 @@ final class RF_Wp_Rollback {
 	 */
 	public static function rollback_plugin( string $slug, string $version ) {
 		if ( ! self::is_available() ) {
-			return RF_Errors::wp_rollback_unavailable();
+			return EC_Errors::wp_rollback_unavailable();
 		}
 
 		if ( '' === trim( $slug ) || '' === trim( $version ) ) {
-			return RF_Errors::invalid_input( 'Plugin slug and rollback version are required.' );
+			return EC_Errors::invalid_input( 'Plugin slug and rollback version are required.' );
 		}
 
 		try {
@@ -42,7 +42,7 @@ final class RF_Wp_Rollback {
 					'assetSlug'    => $slug,
 					'assetVersion' => $version,
 					'meta'         => array(
-						'source' => 'rootsandfruit-abilities',
+						'source' => 'ent-companion',
 					),
 				)
 			);
@@ -52,7 +52,7 @@ final class RF_Wp_Rollback {
 			foreach ( $registerer->getAllRollbackStepsIds() as $step_id ) {
 				$step = $registerer->getRollbackStepById( $step_id );
 				if ( null === $step ) {
-					return RF_Errors::plugin_rollback_failed(
+					return EC_Errors::plugin_rollback_failed(
 						sprintf( 'Unknown WP Rollback step "%s".', $step_id )
 					);
 				}
@@ -80,7 +80,7 @@ final class RF_Wp_Rollback {
 				'steps' => $steps_log,
 			);
 		} catch ( \Throwable $throwable ) {
-			return RF_Errors::plugin_rollback_failed( $throwable->getMessage() );
+			return EC_Errors::plugin_rollback_failed( $throwable->getMessage() );
 		}
 	}
 }

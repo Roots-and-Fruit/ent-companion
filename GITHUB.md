@@ -1,14 +1,14 @@
-# GitHub release — Roots & Fruit Abilities
+# GitHub release — Ent Companion
 
-Canonical repo: [github.com/Roots-and-Fruit/abilities](https://github.com/Roots-and-Fruit/abilities)
+Canonical repo: [github.com/Roots-and-Fruit/ent-companion](https://github.com/Roots-and-Fruit/ent-companion)
 
 ## Repo layout
 
-Plugin files live at the **repository root** (not in a monorepo subfolder). Git Updater expects:
+Plugin files live at the **repository root**. Git Updater expects:
 
 ```
-abilities/
-├── rootsandfruit-abilities.php   # main plugin file (includes GitHub Plugin URI headers)
+ent-companion/
+├── ent-companion.php   # main plugin file (GitHub Plugin URI headers)
 ├── readme.txt
 ├── includes/
 └── templates/
@@ -16,29 +16,29 @@ abilities/
 
 ## Git Updater (production)
 
-Headers in `rootsandfruit-abilities.php`:
+Headers in `ent-companion.php`:
 
 ```
-GitHub Plugin URI: https://github.com/Roots-and-Fruit/abilities
+GitHub Plugin URI: https://github.com/Roots-and-Fruit/ent-companion
 Primary Branch: main
 Release Asset: true
 ```
 
-After install, register in **Git Updater → Additions** if needed:
+After install, register in **Git Updater → Additions** if auto-discovery does not pick it up:
 
 | Field | Value |
 |-------|--------|
 | Repository Type | `github_plugin` |
-| Repository Slug | `rootsandfruit-abilities/rootsandfruit-abilities.php` |
-| Repository URI | `https://github.com/Roots-and-Fruit/abilities` |
+| Repository Slug | `ent-companion/ent-companion.php` |
+| Repository URI | `https://github.com/Roots-and-Fruit/ent-companion` |
 | Primary Branch | `main` |
 | Release Asset | checked |
 
-Release zip asset name should match Git Updater convention: `abilities-*.zip` (e.g. `abilities-1.4.0.zip`) containing folder `rootsandfruit-abilities/`.
+Release zip asset name: `ent-companion-<version>.zip` (e.g. `ent-companion-2.0.0.zip`) containing folder `ent-companion/`.
 
 ## Tagging a release
 
-1. Bump `Version` and `RF_ABILITIES_VERSION` in `rootsandfruit-abilities.php` and `Stable tag` in `readme.txt`.
+1. Bump `Version` and `ENT_COMPANION_VERSION` in `ent-companion.php` and `Stable tag` in `readme.txt`.
 2. Commit and push to `main`.
 3. Build zip with **forward-slash paths** (required on Linux):
 
@@ -48,18 +48,10 @@ python bin/build-release-zip.py
 
 Do **not** use PowerShell `Compress-Archive` — it can embed backslashes and break Git Updater on the server.
 
-4. Create GitHub release tag `v1.5.0` with attached `abilities-<version>.zip`.
+4. Create GitHub release tag `v2.0.0` with attached `ent-companion-<version>.zip`.
 
-Verify before upload: zip must contain `rootsandfruit-abilities/rootsandfruit-abilities.php` (not `rootsandfruit-abilities\...`).
+Verify before upload: zip must contain `ent-companion/ent-companion.php` (not `ent-companion\...`).
 
-## Local dev layout
+## Ent dev workspace
 
-Clone beside the Cursor **agent** repo:
-
-```
-rootsandfruit-as-client/
-├── agent/       ← Cursor MCP ops (github.com/Roots-and-Fruit/agent)
-└── abilities/   ← this repo
-```
-
-Open `rootsandfruit.code-workspace` in Cursor for both folders. Sync changes here before tagging releases.
+Open `ent-dev.code-workspace` in the Ent kit repo — includes `ent-kit`, `Ent-workspace-test`, and this plugin checkout.

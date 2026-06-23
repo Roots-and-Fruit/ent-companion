@@ -2,7 +2,7 @@
 /**
  * Fluent builder for wp_register_ability() arguments.
  *
- * @package RootsAndFruitAbilities
+ * @package EntCompanion
  */
 
 declare(strict_types=1);
@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class RF_Ability_Definition {
+final class EC_Ability_Definition {
 
 	private string $name = '';
 
@@ -141,7 +141,7 @@ final class RF_Ability_Definition {
 	 * @throws InvalidArgumentException
 	 */
 	private function validate(): void {
-		$prefix = defined( 'RF_ABILITIES_PREFIX' ) ? RF_ABILITIES_PREFIX : 'rootsandfruit/';
+		$prefix = defined( 'ENT_COMPANION_PREFIX' ) ? ENT_COMPANION_PREFIX : 'ent-companion/';
 
 		if ( ! str_starts_with( $this->name, $prefix ) ) {
 			throw new InvalidArgumentException(

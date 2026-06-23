@@ -2,7 +2,7 @@
 /**
  * Lightweight post-change site checks.
  *
- * @package RootsAndFruitAbilities
+ * @package EntCompanion
  */
 
 declare(strict_types=1);
@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class RF_Site_Smoke_Test {
+final class EC_Site_Smoke_Test {
 
 	/**
 	 * @return array{ok: bool, http_status: int, message: string}

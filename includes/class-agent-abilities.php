@@ -2,7 +2,7 @@
 /**
  * Helpers for registering agent abilities from FluentSnippets.
  *
- * @package RootsAndFruitAbilities
+ * @package EntCompanion
  */
 
 declare(strict_types=1);
@@ -11,21 +11,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class RF_Agent_Abilities {
+final class EC_Agent_Abilities {
 
-	public const CUSTOM_CATEGORY = 'rootsandfruit-custom';
+	public const CUSTOM_CATEGORY = 'ent-companion-custom';
 
 	/**
 	 * @var array<string, callable>
 	 */
 	private static array $permission_map = array(
-		'read'            => array( RF_Permissions::class, 'can_read' ),
-		'edit_posts'      => array( RF_Permissions::class, 'can_create_posts' ),
-		'list_posts'      => array( RF_Permissions::class, 'can_list_posts' ),
-		'create_posts'    => array( RF_Permissions::class, 'can_create_posts' ),
-		'edit_post'       => array( RF_Permissions::class, 'can_edit_post' ),
-		'publish_post'    => array( RF_Permissions::class, 'can_publish_post' ),
-		'manage_snippets' => array( RF_Permissions::class, 'can_manage_snippets' ),
+		'read'            => array( EC_Permissions::class, 'can_read' ),
+		'edit_posts'      => array( EC_Permissions::class, 'can_create_posts' ),
+		'list_posts'      => array( EC_Permissions::class, 'can_list_posts' ),
+		'create_posts'    => array( EC_Permissions::class, 'can_create_posts' ),
+		'edit_post'       => array( EC_Permissions::class, 'can_edit_post' ),
+		'publish_post'    => array( EC_Permissions::class, 'can_publish_post' ),
+		'manage_snippets' => array( EC_Permissions::class, 'can_manage_snippets' ),
 	);
 
 	public static function register_category(): void {
@@ -36,15 +36,15 @@ final class RF_Agent_Abilities {
 		wp_register_ability_category(
 			self::CUSTOM_CATEGORY,
 			array(
-				'label'       => __( 'Roots & Fruit — Custom', 'rootsandfruit-abilities' ),
-				'description' => __( 'Agent-defined abilities registered via FluentSnippets.', 'rootsandfruit-abilities' ),
+				'label'       => __( 'Ent Companion — Custom', 'ent-companion' ),
+				'description' => __( 'Agent-defined abilities registered via FluentSnippets.', 'ent-companion' ),
 			)
 		);
 	}
 
 	/**
 	 * @param array<string, mixed> $args {
-	 *     @type string          $slug          Short slug (example-task) or full name (rootsandfruit/example-task).
+	 *     @type string          $slug          Short slug (example-task) or full name (ent-companion/example-task).
 	 *     @type string          $label         Human-readable label.
 	 *     @type string          $description   Optional description.
 	 *     @type string|callable $handler       Function name or callable.
@@ -59,7 +59,7 @@ final class RF_Agent_Abilities {
 		if ( ! doing_action( 'wp_abilities_api_init' ) ) {
 			_doing_it_wrong(
 				__FUNCTION__,
-				'rf_register_agent_ability() must be called from a wp_abilities_api_init callback.',
+				'ec_register_agent_ability() must be called from a wp_abilities_api_init callback.',
 				'1.2.0'
 			);
 			return;
@@ -120,7 +120,7 @@ final class RF_Agent_Abilities {
 			'execute_callback'    => is_string( $handler ) ? $handler : $handler,
 			'permission_callback' => $permission_callback,
 			'meta'                => array(
-				'annotations' => $readonly ? RF_Annotations::read_only() : RF_Annotations::write_safe(),
+				'annotations' => $readonly ? EC_Annotations::read_only() : EC_Annotations::write_safe(),
 				'mcp'         => array(
 					'public' => $mcp_public,
 					'type'   => 'tool',
@@ -163,7 +163,7 @@ final class RF_Agent_Abilities {
 			return '';
 		}
 
-		$prefix = defined( 'RF_ABILITIES_PREFIX' ) ? RF_ABILITIES_PREFIX : 'rootsandfruit/';
+		$prefix = defined( 'ENT_COMPANION_PREFIX' ) ? ENT_COMPANION_PREFIX : 'ent-companion/';
 
 		if ( str_contains( $slug, '/' ) ) {
 			$name = $slug;
@@ -171,10 +171,10 @@ final class RF_Agent_Abilities {
 			$name = $prefix . $slug;
 		}
 
-		if ( ! preg_match( '/^rootsandfruit\/[a-z0-9-]+$/', $name ) ) {
+		if ( ! preg_match( '/^ent-companion\/[a-z0-9-]+$/', $name ) ) {
 			_doing_it_wrong(
 				__FUNCTION__,
-				sprintf( 'Ability name must match rootsandfruit/name-with-dashes, got "%s".', $name ),
+				sprintf( 'Ability name must match ent-companion/name-with-dashes, got "%s".', $name ),
 				'1.2.0'
 			);
 			return '';
@@ -220,10 +220,10 @@ final class RF_Agent_Abilities {
 /**
  * Register one agent ability from a FluentSnippets wp_abilities_api_init callback.
  *
- * @param array<string, mixed> $args Ability definition (see RF_Agent_Abilities::register).
+ * @param array<string, mixed> $args Ability definition (see EC_Agent_Abilities::register).
  */
-function rf_register_agent_ability( array $args ): void {
-	RF_Agent_Abilities::register( $args );
+function ec_register_agent_ability( array $args ): void {
+	EC_Agent_Abilities::register( $args );
 }
 
 /**
@@ -231,6 +231,6 @@ function rf_register_agent_ability( array $args ): void {
  *
  * @param array<int, array<string, mixed>> $abilities List of ability definitions.
  */
-function rf_register_agent_abilities( array $abilities ): void {
-	RF_Agent_Abilities::register_many( $abilities );
+function ec_register_agent_abilities( array $abilities ): void {
+	EC_Agent_Abilities::register_many( $abilities );
 }

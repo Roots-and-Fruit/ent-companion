@@ -72,7 +72,7 @@ See:
 Before shipping:
 
 - Validate/sanitize input early; escape output late.
-- Use nonces to prevent CSRF *and* capability checks for authorization.
+- Use nonces to prevent CSEC *and* capability checks for authorization.
 - Avoid directly trusting `$_POST` / `$_GET`; use `wp_unslash()` and specific keys.
 - Use `$wpdb->prepare()` for SQL; avoid building SQL with string concatenation.
 

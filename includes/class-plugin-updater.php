@@ -2,7 +2,7 @@
 /**
  * WordPress.org plugin version read + upgrade helpers.
  *
- * @package RootsAndFruitAbilities
+ * @package EntCompanion
  */
 
 declare(strict_types=1);
@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class RF_Plugin_Updater {
+final class EC_Plugin_Updater {
 
 	/**
 	 * @return string|WP_Error
@@ -50,7 +50,7 @@ final class RF_Plugin_Updater {
 			: array();
 
 		if ( empty( $versions ) ) {
-			return RF_Errors::plugin_update_failed(
+			return EC_Errors::plugin_update_failed(
 				sprintf(
 					'WordPress.org returned no versions for "%s". Check outbound HTTP access to api.wordpress.org.',
 					$slug
@@ -60,7 +60,7 @@ final class RF_Plugin_Updater {
 
 		$target = '' !== trim( $target_version ) ? trim( $target_version ) : (string) ( $api->version ?? '' );
 		if ( '' === $target || ! isset( $versions[ $target ] ) ) {
-			return RF_Errors::invalid_input(
+			return EC_Errors::invalid_input(
 				sprintf( 'Version "%s" is not available on WordPress.org for "%s".', $target, $slug )
 			);
 		}
@@ -99,16 +99,16 @@ final class RF_Plugin_Updater {
 		);
 
 		if ( is_wp_error( $result ) ) {
-			return RF_Errors::plugin_update_failed( $result->get_error_message() );
+			return EC_Errors::plugin_update_failed( $result->get_error_message() );
 		}
 
 		if ( false === $result ) {
 			$errors = $skin->get_errors();
 			if ( is_wp_error( $errors ) && $errors->has_errors() ) {
-				return RF_Errors::plugin_update_failed( $errors->get_error_message() );
+				return EC_Errors::plugin_update_failed( $errors->get_error_message() );
 			}
 
-			return RF_Errors::plugin_update_failed( 'Plugin update failed.' );
+			return EC_Errors::plugin_update_failed( 'Plugin update failed.' );
 		}
 
 		$new_version = self::get_installed_version( $slug );
@@ -144,7 +144,7 @@ final class RF_Plugin_Updater {
 		);
 
 		if ( is_wp_error( $api ) ) {
-			return RF_Errors::plugin_update_failed(
+			return EC_Errors::plugin_update_failed(
 				sprintf(
 					'WordPress.org API error for "%s": %s',
 					$slug,
@@ -154,7 +154,7 @@ final class RF_Plugin_Updater {
 		}
 
 		if ( empty( $api ) || ! is_object( $api ) || ! empty( $api->error ) ) {
-			return RF_Errors::plugin_not_on_wordpress_org( $slug );
+			return EC_Errors::plugin_not_on_wordpress_org( $slug );
 		}
 
 		return $api;
@@ -174,7 +174,7 @@ final class RF_Plugin_Updater {
 			}
 		}
 
-		return RF_Errors::plugin_not_installed( $slug );
+		return EC_Errors::plugin_not_installed( $slug );
 	}
 
 	private static function load_upgrader_dependencies(): void {

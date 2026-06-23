@@ -1,6 +1,6 @@
 ---
 name: rf-abilities-dev
-description: Develop rootsandfruit-abilities plugin code. Use when adding or changing WordPress Abilities API registrations, PHP modules, schemas, or permission callbacks in the abilities plugin.
+description: Develop ent-companion plugin code. Use when adding or changing WordPress Abilities API registrations, PHP modules, schemas, or permission callbacks in the abilities plugin.
 ---
 
 # R&F abilities dev
@@ -11,7 +11,7 @@ Upstream detail: sibling `wp-*` skills in this folder. Site ops routing: `agent/
 
 ## 1. Design the ability
 
-1. Namespace **`rootsandfruit/<name>`** — exactly one slash (WordPress rejects `rootsandfruit/site/ping`).
+1. Namespace **`ent-companion/<name>`** — exactly one slash (WordPress rejects `ent-companion/site/ping`).
 2. Define input/output schema, `permission_callback`, and which credential profile may run it.
 3. Register in the correct module under `includes/abilities/`; conditional deps (PPP, FluentSnippets, WP Rollback) gate registration.
 4. Prefer composite abilities for risky workflows (see `plugin-update-safe`).
@@ -22,7 +22,7 @@ Upstream detail: sibling `wp-*` skills in this folder. Site ops routing: `agent/
 
 - Match existing PHP style in sibling files.
 - Reuse `class-schemas.php`, `class-errors.php`, `class-permissions.php` patterns.
-- Snippet-based abilities: `templates/rf-ability-snippet.example.php`, `rf_register_agent_ability()`.
+- Snippet-based abilities: `templates/ec-ability-snippet.example.php`, `EC_register_agent_ability()`.
 - Do not register delete abilities unless explicitly requested.
 
 **Done when:** code compiles and follows module conventions.
@@ -31,7 +31,7 @@ Upstream detail: sibling `wp-*` skills in this folder. Site ops routing: `agent/
 
 ```powershell
 # From agent/
-php -l ..\abilities\rootsandfruit-abilities.php
+php -l ..\abilities\ent-companion.php
 php -l ..\abilities\includes\<touched-path>.php
 
 .\tools\scripts\test-wordpress-mcp-http.ps1 -ExpectRfAbilities -ExpectBlocks

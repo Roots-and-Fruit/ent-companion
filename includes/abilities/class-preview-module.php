@@ -2,7 +2,7 @@
 /**
  * Public Post Preview abilities.
  *
- * @package RootsAndFruitAbilities
+ * @package EntCompanion
  */
 
 declare(strict_types=1);
@@ -11,43 +11,43 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class RF_Preview_Module implements RF_Ability_Module {
+final class EC_Preview_Module implements EC_Ability_Module {
 
 	public function category_slug(): string {
-		return 'rootsandfruit-preview';
+		return 'ent-companion-preview';
 	}
 
 	public function category_label(): string {
-		return __( 'Roots & Fruit — Preview', 'rootsandfruit-abilities' );
+		return __( 'Ent Companion — Preview', 'ent-companion' );
 	}
 
 	public function category_description(): string {
-		return __( 'Public Post Preview helpers for sharing draft links.', 'rootsandfruit-abilities' );
+		return __( 'Public Post Preview helpers for sharing draft links.', 'ent-companion' );
 	}
 
 	public function definitions(): array {
 		return array(
-			RF_Ability_Definition::make( 'rootsandfruit/enable-public-preview' )
-				->label( __( 'Enable public post preview', 'rootsandfruit-abilities' ) )
-				->description( __( 'Enables Public Post Preview for a draft and returns the shareable logged-out URL.', 'rootsandfruit-abilities' ) )
+			EC_Ability_Definition::make( 'ent-companion/enable-public-preview' )
+				->label( __( 'Enable public post preview', 'ent-companion' ) )
+				->description( __( 'Enables Public Post Preview for a draft and returns the shareable logged-out URL.', 'ent-companion' ) )
 				->category( $this->category_slug() )
-				->input( RF_Schemas::post_id_input() )
-				->output( RF_Schemas::preview_result_output() )
+				->input( EC_Schemas::post_id_input() )
+				->output( EC_Schemas::preview_result_output() )
 				->execute( array( self::class, 'enable_public_preview' ) )
-				->permission( array( RF_Permissions::class, 'can_edit_post' ) )
+				->permission( array( EC_Permissions::class, 'can_edit_post' ) )
 				->mcp_public( true )
-				->annotations( RF_Annotations::write_safe() )
+				->annotations( EC_Annotations::write_safe() )
 				->build(),
-			RF_Ability_Definition::make( 'rootsandfruit/get-public-preview-url' )
-				->label( __( 'Get public post preview URL', 'rootsandfruit-abilities' ) )
-				->description( __( 'Returns the public preview URL if enabled for a post, otherwise enabled=false.', 'rootsandfruit-abilities' ) )
+			EC_Ability_Definition::make( 'ent-companion/get-public-preview-url' )
+				->label( __( 'Get public post preview URL', 'ent-companion' ) )
+				->description( __( 'Returns the public preview URL if enabled for a post, otherwise enabled=false.', 'ent-companion' ) )
 				->category( $this->category_slug() )
-				->input( RF_Schemas::post_id_input() )
-				->output( RF_Schemas::preview_result_output() )
+				->input( EC_Schemas::post_id_input() )
+				->output( EC_Schemas::preview_result_output() )
 				->execute( array( self::class, 'get_public_preview_url' ) )
-				->permission( array( RF_Permissions::class, 'can_edit_post' ) )
+				->permission( array( EC_Permissions::class, 'can_edit_post' ) )
 				->mcp_public( true )
-				->annotations( RF_Annotations::read_only() )
+				->annotations( EC_Annotations::read_only() )
 				->build(),
 		);
 	}
@@ -58,13 +58,13 @@ final class RF_Preview_Module implements RF_Ability_Module {
 	 */
 	public static function enable_public_preview( array $input ) {
 		if ( ! class_exists( 'DS_Public_Post_Preview' ) ) {
-			return RF_Errors::preview_plugin_inactive();
+			return EC_Errors::preview_plugin_inactive();
 		}
 
 		$post_id = (int) $input['post_id'];
 		$post    = get_post( $post_id );
 		if ( ! $post instanceof WP_Post ) {
-			return RF_Errors::post_not_found( $post_id );
+			return EC_Errors::post_not_found( $post_id );
 		}
 
 		self::add_post_to_preview_registry( $post_id );
@@ -82,13 +82,13 @@ final class RF_Preview_Module implements RF_Ability_Module {
 	 */
 	public static function get_public_preview_url( array $input ) {
 		if ( ! class_exists( 'DS_Public_Post_Preview' ) ) {
-			return RF_Errors::preview_plugin_inactive();
+			return EC_Errors::preview_plugin_inactive();
 		}
 
 		$post_id = (int) $input['post_id'];
 		$post    = get_post( $post_id );
 		if ( ! $post instanceof WP_Post ) {
-			return RF_Errors::post_not_found( $post_id );
+			return EC_Errors::post_not_found( $post_id );
 		}
 
 		$enabled = self::is_post_in_preview_registry( $post_id );
