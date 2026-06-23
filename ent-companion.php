@@ -3,7 +3,7 @@
  * Plugin Name: Ent Companion
  * Plugin URI: https://github.com/Roots-and-Fruit/ent-companion
  * Description: Ent Companion — abilities engine for MCP Adapter (snippets, preview, safe plugin updates).
- * Version: 2.1.0
+ * Version: 2.2.0
  * Requires at least: 6.9
  * Requires PHP: 8.0
  * Author: Roots & Fruit
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'ENT_COMPANION_VERSION', '2.1.0' );
+define( 'ENT_COMPANION_VERSION', '2.2.0' );
 define( 'ENT_COMPANION_FILE', __FILE__ );
 define( 'ENT_COMPANION_PATH', plugin_dir_path( __FILE__ ) );
 define( 'ENT_COMPANION_URL', plugin_dir_url( __FILE__ ) );

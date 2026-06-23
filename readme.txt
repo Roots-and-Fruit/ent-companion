@@ -4,7 +4,7 @@ Tags: abilities, mcp, ai, agents, ent
 Requires at least: 6.9
 Tested up to: 6.9
 Requires PHP: 8.0
-Stable tag: 2.1.0
+Stable tag: 2.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -60,6 +60,10 @@ When WP Rollback is active:
 3. Confirm `ent-companion/ping` appears in MCP discover
 
 == Changelog ==
+
+= 2.2.0 =
+* Fix plugin-update-safe: resolve package URLs from update_plugins transient (same as wp-admin) instead of the full WordPress.org versions map.
+* Fallback to plugins_api downloadlink, then downloads.wordpress.org URL for explicit target_version.
 
 = 2.1.0 =
 * Add `ent-companion/list-plugins` — installed plugin inventory with optional status/search filters and update metadata.
